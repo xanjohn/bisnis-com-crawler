@@ -15,6 +15,7 @@ page_num = 1
 
 
 while current_page_url and page_num <= 2:
+# while current_page_url:
     print(f"--- Mengambil daftar link dari Halaman Indeks ke-{page_num} ---")
     print(f"URL: {current_page_url}")
     
