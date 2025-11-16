@@ -58,9 +58,14 @@ Arsitektur proyek ini bersifat modular, memisahkan logika inti Scraper (yang men
 
 3. Jalankan Crawler:
     **Mode Standard (Berita Terbaru):**
+    ```bash
         python crawl_standard.py
+    ```
+
     **Mode Backtrack (Rentang Tanggal): (Opsional: Buka crawl_backtrack.py dan ubah start_date / end_date)**
+    ```bash
         python crawl_backtrack.py
+    ```
 
 ---
 
