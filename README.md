@@ -10,30 +10,19 @@ Proyek ini adalah crawler dan scraper Python yang dirancang untuk mengambil arti
 Arsitektur proyek ini bersifat modular, memisahkan logika inti Scraper (yang mengambil detail satu artikel) dari Crawler (yang menemukan link artikel). Proyek ini memiliki dua mode eksekusi (entrypoint) yang berbeda sesuai kebutuhan.
 
 
-## ⚙️ Project Overview
+## ⚙️ Penjelasan Program
 1. Standard Mode (crawl_standard.py):
+    a) Berperan sebagai crawler yang dapat dijadwalkan secara berkala untuk mengambil artikel terbaru.
+    b) Memulai crawling dari halaman indeks utama (https://www.bisnis.com/index).
+    c) Secara otomatis menangani paginasi (halaman ganda) untuk menemukan semua artikel terbaru.
+    d) Menyimpan hasilnya sebagai hasil_scraping_standard.json.
 
 2. Backtrack Mode (crawl_backtrack.py):
-
-
-
-Berperan sebagai crawler yang dapat dijadwalkan secara berkala untuk mengambil artikel terbaru.
-
-Memulai crawling dari halaman indeks utama (https://www.bisnis.com/index).
-
-Secara otomatis menangani paginasi (halaman ganda) untuk menemukan semua artikel terbaru.
-
-Menyimpan hasilnya sebagai hasil_scraping_standard.json.
-
-
-
-
-**Workflow:**
-1. Data scraping  
-2. Case Folding, Text cleaning and normalization
-4. Feature extraction (TF-IDF)
-5. Split Data (80:20)
-6. Model training and evaluation (SVM)
+    a)Menerima parameter start_date dan end_date (saat ini di-hardcode di dalam skrip).
+    b)Melakukan looping untuk setiap tanggal dalam rentang tersebut.
+    c)Mengunjungi halaman indeks spesifik per tanggal (misal: .../index?date=YYYY-MM-DD).
+    d)Menangani paginasi di setiap halaman indeks tanggal untuk memastikan semua artikel terambil.
+    e)Menyimpan hasilnya sebagai file JSON dinamis, misal backtrack_20251115_20251116.json.
 
 ---
 
@@ -51,41 +40,27 @@ bisnis-com-crawler/
 
 ---
 
-## 🧮 Modeling Summary
+## 🧰 Teknologi yang dipakai
+- **Python**
+- **Library yang dipakai:**:
+    1) *Requests*: Untuk mengirim permintaan HTTP ke bisnis.com.
+    2) *BeautifulSoup4*: Untuk mem-parsing HTML dan mengekstrak data.
+    3) *Datetime*: Untuk menangani, mem-parsing, dan memformat tanggal.
+    4) *JSON*: Untuk mengekspor data yang telah di-scrape.
 
-*Validation Data
-| Dimension | Model | Precision | Recall | F1-Score | Accuracy | 
-|------------|--------|------------|--------|-----------|-----------|
-| I/E | SVM | 0.697 | 0.679 | 0.591 | 0.679 |
-| J/P | SVM | 0.658 | 0.645 | 0.614 | 0.602 |
-| N/S | SVM | 0.625 | 0.602 | 0.581 | 0.690 |
-| T/F | SVM | 0.710 | 0.690 | 0.625 | 0.645 |
-
-*Test Data
-| Dimension | Model | Precision | Recall | F1-Score | Accuracy | 
-|------------|--------|------------|--------|-----------|-----------|
-| I/E | SVM | 0.560 | 0.658 | 0.558 | 0.658 |
-| J/P | SVM | 0.565 | 0.546 | 0.510 | 0.561 |
-| N/S | SVM | 0.538 | 0.561 | 0.537 | 0.595 |
-| T/F | SVM | 0.533 | 0.595 | 0.502 | 0.546 |
+- **Arsitektur & Fitur:** Text preprocessing, tokenization, normalization
+    1) *Modular*: Logika scraper dan crawler terpisah.
+    2) *Error Handling*: Secara tangguh melewati artikel premium/berbayar tanpa crash.
+    3) *Data Parsing*: Termasuk logika parser kustom untuk mengonversi format tanggal bahasa Indonesia ("Jumat, 14 November 2025 | 15:20") ke format ISO 8601.
+    4) *Pagination*: Kedua mode crawler mendukung crawling multi-halaman.
 
 ---
 
-## 🧰 Tech Stack
-- **Python** (Pandas, NumPy, Scikit-learn, NLTK, TQDM)
-- **Visualization:** Matplotlib, Seaborn
-- **NLP:** Text preprocessing, tokenization, normalization
-- **Augmentation:** Back Translation, Synonym Replacement
-- **Modeling:** Support Vector Machine (SVM)
-- **Evaluation:** F1-score, Precision, Recall, Confusion Matrix
-
----
-
-## ⚙️ How to Run
+## ⚙️ Cara Menjalankan
 1. Clone this repository:
    ```bash
-   git clone https://github.com/xanjohn/MBTI-indonesian-tweet-classification.git
-   cd mbti-nlp-classification
+   git clone https://github.com/[NAMA_ANDA]/bisnis-com-crawler.git
+   cd bisnis-com-crawler
 
 2. Create virtual environment and install dependencies:
     python -m venv venv
@@ -94,21 +69,13 @@ bisnis-com-crawler/
     source venv/bin/activate  # (Mac/Linux)
     pip install -r requirements.txt
 
-3. Open the notebooks in Jupyter and run them sequentially:
-    Jupyter Notebook
+3. Jalankan Crawler:
+    **Mode Standard (Berita Terbaru):**
+        python crawl_standard.py
+    **Mode Backtrack (Rentang Tanggal): (Opsional: Buka crawl_backtrack.py dan ubah start_date / end_date)**
+        python crawl_backtrack.py
 
-
-# 📈 Results
-    - The accuracy for test data and validation data it's bad
-    - It's using full praprocess
-
-
-# 📂 Results Preview
-See the results/figures/ folder for:
-    - Precission
-    - Recall
-    - F1-score
-    - Accuracy
+---
 
 # 🧑‍💻 Author
 **Deri Nugraha**
